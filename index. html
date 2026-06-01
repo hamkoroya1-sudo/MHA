@@ -1,132 +1,951 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHA CLOTHING | متحرك</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0a0a0a; color: #ffffff; padding-bottom: 30px; overflow-x: hidden; }
-        
-        /* حركة ظهور الهيدر */
-        header { 
-            background-color: #111111; 
-            text-align: center; 
-            padding: 25px; 
-            font-size: 26px; 
-            font-weight: 900; 
-            letter-spacing: 2px; 
-            border-bottom: 1px solid #222;
-            animation: fadeInDown 0.8s ease-out;
-        }
-        .subtitle { font-size: 12px; color: #888; margin-top: 5px; font-weight: normal; }
-        
-        .container { max-width: 500px; margin: auto; padding: 20px; }
-        
-        /* كارت المنتج مع تأثير الحركة عند اللمس */
-        .product-card { 
-            background: #161616; 
-            border: 1px solid #222; 
-            border-radius: 16px; 
-            margin-bottom: 25px; 
-            overflow: hidden; 
-            display: flex; 
-            flex-direction: column;
-            transform: translateY(40px);
-            opacity: 0;
-            animation: fadeInUp 1s ease-out forwards; /* حركة صعود وظهور للمنتج */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        /* تأثير عند الضغط أو التمرير فوق المنتج */
-        .product-card:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.05);
-        }
-        
-        .product-img { 
-            width: 100%; 
-            height: 350px; 
-            background-color: #1f1f1f; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            color: #888; 
-            font-size: 16px; 
-            border-bottom: 1px solid #222; 
-            font-weight: bold; 
-        }
-        
-        .product-info { padding: 20px; text-align: right; }
-        .product-title { font-size: 22px; font-weight: bold; margin-bottom: 8px; color: #fff; }
-        .product-price { color: #00ff66; font-size: 20px; font-weight: bold; margin-bottom: 12px; }
-        .product-desc { font-size: 14px; color: #aaa; line-height: 1.6; margin-bottom: 20px; }
-        
-        /* زر الشراء مع تأثير نبض حركي مستمر لجذب العين */
-        .btn-buy { 
-            display: block; 
-            width: 100%; 
-            background-color: #ffffff; 
-            color: #000000; 
-            text-align: center; 
-            padding: 14px; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            text-decoration: none; 
-            animation: pulse 2s infinite; /* نبض مستمر */
-            transition: 0.2s;
-        }
-        .btn-buy:hover { background-color: #cccccc; transform: scale(0.98); }
-        
-        footer { text-align: center; padding: 20px; font-size: 12px; color: #444; border-top: 1px solid #111; margin-top: 20px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÉLITE — أزياء راقية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #fafaf8;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --cream: #f5f0e8;
+    --gray: #8a8680;
+    --dark-gray: #1e1e1e;
+    --border: rgba(201,168,76,0.2);
+  }
 
-        /* تَعريف الحركات البرمجية (Keyframes) */
-        @keyframes fadeInUp {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        @keyframes fadeInDown {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-        }
-    </style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: difference;
+  }
+  .cursor-follower {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+    opacity: 0.5;
+  }
+
+  /* Loader */
+  .loader {
+    position: fixed; inset: 0;
+    background: var(--black);
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  .loader.hidden { opacity: 0; visibility: hidden; }
+  .loader-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  .loader-bar {
+    width: 200px; height: 1px;
+    background: var(--dark-gray);
+    overflow: hidden;
+  }
+  .loader-progress {
+    height: 100%;
+    background: var(--gold);
+    animation: load 2s ease forwards;
+  }
+  @keyframes load { from { width: 0 } to { width: 100% } }
+  @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+  /* Navigation */
+  nav {
+    position: fixed; top: 0; width: 100%;
+    z-index: 100;
+    padding: 24px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(20px);
+    padding: 16px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    font-weight: 400;
+    position: relative;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.4s ease;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cart {
+    display: flex; align-items: center; gap: 8px;
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    transition: all 0.3s;
+  }
+  .nav-cart:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
+
+  /* Hero */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      linear-gradient(135deg, #0a0a0a 0%, #1a1510 50%, #0a0a0a 100%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: 
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    animation: gridMove 20s linear infinite;
+  }
+  @keyframes gridMove { from{transform:translateY(0)} to{transform:translateY(80px)} }
+  
+  .hero-content {
+    position: relative;
+    padding: 0 60px;
+    max-width: 700px;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    border: 1px solid var(--border);
+    padding: 8px 20px;
+    margin-bottom: 36px;
+    animation: fadeInUp 1s ease 0.3s both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 7rem);
+    font-weight: 900;
+    line-height: 0.95;
+    margin-bottom: 28px;
+    animation: fadeInUp 1s ease 0.5s both;
+  }
+  .hero-title .line-gold { color: var(--gold); display: block; }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--gray);
+    line-height: 1.8;
+    margin-bottom: 48px;
+    max-width: 400px;
+    animation: fadeInUp 1s ease 0.7s both;
+  }
+  .hero-btns {
+    display: flex; gap: 16px;
+    animation: fadeInUp 1s ease 0.9s both;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    padding: 16px 40px;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold-light);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease;
+  }
+  .btn-primary:hover::before { transform: scaleX(1); transform-origin: left; }
+  .btn-primary span { position: relative; z-index: 1; }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    padding: 16px 40px;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px; left: 60px;
+    display: flex; align-items: center; gap: 16px;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    animation: fadeInUp 1s ease 1.2s both;
+  }
+  .scroll-line {
+    width: 60px; height: 1px;
+    background: var(--gray);
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold);
+    animation: scrollAnim 2s ease infinite;
+  }
+  @keyframes scrollAnim { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+
+  .hero-image-side {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 45%;
+    overflow: hidden;
+    animation: fadeInRight 1.2s ease 0.2s both;
+  }
+  .hero-image-side::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--black) 0%, transparent 30%);
+    z-index: 2;
+  }
+  .hero-image-placeholder {
+    width: 100%; height: 100%;
+    background: 
+      linear-gradient(180deg, rgba(201,168,76,0.1) 0%, rgba(10,10,10,0.3) 100%),
+      repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(201,168,76,0.03) 10px, rgba(201,168,76,0.03) 11px);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8rem;
+    opacity: 0.4;
+  }
+
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeInRight { from{opacity:0;transform:translateX(60px)} to{opacity:1;transform:translateX(0)} }
+
+  /* Section */
+  section { padding: 120px 60px; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 64px;
+  }
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .section-link {
+    color: var(--gold);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+    transition: gap 0.3s;
+  }
+  .section-link:hover { gap: 20px; }
+
+  /* Products Grid */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .product-card {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    background: var(--dark-gray);
+    transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .product-card:hover { transform: translateY(-8px); }
+  .product-card:first-child { grid-row: span 2; }
+  .product-img {
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #1e1a14 0%, #2a2318 50%, #1a1510 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.6s ease;
+  }
+  .product-card:first-child .product-img { aspect-ratio: auto; height: 100%; min-height: 500px; }
+  .product-card:hover .product-img { transform: scale(1.05); }
+  .product-img-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .product-card:hover .product-img-overlay { opacity: 1; }
+  .product-quick-add {
+    background: var(--gold);
+    color: var(--black);
+    padding: 12px 28px;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+  }
+  .product-card:hover .product-quick-add { transform: translateY(0); }
+  .product-info { padding: 20px; }
+  .product-cat {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .product-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .product-price {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1.1rem;
+  }
+  .product-tag-badge {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: var(--gold);
+    color: var(--black);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    padding: 6px 12px;
+  }
+
+  /* Marquee */
+  .marquee-section {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    background: var(--dark-gray);
+  }
+  .marquee-track {
+    display: flex;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    padding: 0 48px;
+    display: flex; align-items: center; gap: 48px;
+  }
+  .marquee-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* Feature Section */
+  .feature-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    min-height: 70vh;
+  }
+  .feature-visual {
+    background: 
+      linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(10,10,10,0.5) 100%),
+      repeating-conic-gradient(rgba(201,168,76,0.05) 0%, transparent 25%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-visual::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 60%, var(--black) 100%);
+  }
+  .feature-content {
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .feature-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    font-weight: 900;
+    color: rgba(201,168,76,0.1);
+    line-height: 1;
+    margin-bottom: -20px;
+  }
+
+  /* Stats */
+  .stats-section {
+    background: var(--dark-gray);
+    padding: 80px 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-item {
+    padding: 40px;
+    text-align: center;
+    border-left: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+  }
+  .stat-item:first-child { border-left: none; }
+  .stat-item:hover { background: rgba(201,168,76,0.05); }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label { font-size: 0.8rem; letter-spacing: 0.15em; color: var(--gray); margin-top: 8px; }
+
+  /* Newsletter */
+  .newsletter-section {
+    background: linear-gradient(135deg, #1a1510 0%, #0a0a0a 100%);
+    border: 1px solid var(--border);
+    margin: 0 60px;
+    padding: 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .newsletter-section::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .newsletter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    margin-bottom: 16px;
+  }
+  .newsletter-sub { color: var(--gray); margin-bottom: 40px; }
+  .newsletter-form {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+    gap: 0;
+  }
+  .newsletter-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-left: none;
+    color: var(--white);
+    padding: 16px 24px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s;
+    direction: rtl;
+    order: 2;
+  }
+  .newsletter-input:focus { border-color: var(--gold); }
+  .newsletter-input::placeholder { color: var(--gray); }
+  .newsletter-btn {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 16px 32px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s;
+    order: 1;
+  }
+  .newsletter-btn:hover { background: var(--gold-light); }
+
+  /* Footer */
+  footer {
+    padding: 80px 60px 40px;
+    border-top: 1px solid var(--border);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+  .footer-brand {}
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    display: block;
+    margin-bottom: 16px;
+  }
+  .footer-desc { color: var(--gray); font-size: 0.9rem; line-height: 1.8; }
+  .footer-col-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 12px; }
+  .footer-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--white); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--gray);
+  }
+  .social-links { display: flex; gap: 16px; }
+  .social-link {
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.05); }
+
+  /* Scroll Reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* Floating particles */
+  .particles {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float var(--dur, 8s) var(--delay, 0s) linear infinite;
+  }
+  @keyframes float {
+    0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10%  { opacity: 0.4; }
+    90%  { opacity: 0.4; }
+    100% { transform: translateY(-10vh) translateX(var(--drift, 50px)); opacity: 0; }
+  }
+</style>
 </head>
 <body>
 
-    <header>
-        MHA STORE
-        <div class="subtitle">ملابس عصرية وشبابية | STREETWEAR</div>
-    </header>
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="follower"></div>
 
-    <div class="container">
-        <div class="product-card">
-            <div class="product-img">👕 [صورة الملابس ستتحرك هنا]</div>
-            <div class="product-info">
-                <div class="product-title">بنطلون باجي جينز - Baggy Pants</div>
-                <div class="product-price">30,000 د.ع</div>
-                <div class="product-desc">بنطال جينز فضفاض وعصري بقصة واسعة مريحة (Oversized). جرب فتح الصفحة لتشاهد كيف يصعد المنتج بنعومة وتتحرك الأزرار تلقائياً!</div>
-                <button class="btn-buy" onclick="alert('سيتم الربط بالواتساب قريباً!')">اطلب الآن (الدفع عند الاستلام)</button>
-            </div>
-        </div>
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <div class="loader-logo">ÉLITE</div>
+  <div class="loader-bar"><div class="loader-progress"></div></div>
+</div>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">ÉLITE</a>
+  <ul class="nav-links">
+    <li><a href="#products">المجموعات</a></li>
+    <li><a href="#feature">الجديد</a></li>
+    <li><a href="#">العروض</a></li>
+    <li><a href="#">من نحن</a></li>
+  </ul>
+  <div class="nav-cart">🛍 السلة (0)</div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">مجموعة 2025 — الفاخرة</div>
+    <h1 class="hero-title">
+      الأناقة
+      <span class="line-gold">الحقيقية</span>
+    </h1>
+    <p class="hero-sub">
+      اكتشف مجموعتنا الحصرية من الأزياء الراقية، 
+      مصممة لمن يؤمن بأن الملبس انعكاس للشخصية.
+    </p>
+    <div class="hero-btns">
+      <button class="btn-primary"><span>تسوق الآن</span></button>
+      <button class="btn-outline">استكشف المجموعة</button>
     </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>اسحب للأسفل</span>
+  </div>
+  <div class="hero-image-side">
+    <div class="hero-image-placeholder">👗</div>
+  </div>
+</section>
 
-    <footer>جميع الحقوق محفوظة © MHA CLOTHING 2026</footer>
+<!-- Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">أزياء راقية <span class="marquee-dot"></span></div>
+    <div class="marquee-item">جودة استثنائية <span class="marquee-dot"></span></div>
+    <div class="marquee-item">تصاميم حصرية <span class="marquee-dot"></span></div>
+    <div class="marquee-item">موضة 2025 <span class="marquee-dot"></span></div>
+    <div class="marquee-item">شحن مجاني <span class="marquee-dot"></span></div>
+    <div class="marquee-item">أزياء راقية <span class="marquee-dot"></span></div>
+    <div class="marquee-item">جودة استثنائية <span class="marquee-dot"></span></div>
+    <div class="marquee-item">تصاميم حصرية <span class="marquee-dot"></span></div>
+    <div class="marquee-item">موضة 2025 <span class="marquee-dot"></span></div>
+    <div class="marquee-item">شحن مجاني <span class="marquee-dot"></span></div>
+  </div>
+</div>
 
+<!-- Products -->
+<section id="products">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-tag">مجموعتنا المميزة</div>
+      <h2 class="section-title">الأكثر مبيعاً</h2>
+    </div>
+    <a href="#" class="section-link">عرض الكل ←</a>
+  </div>
+  <div class="products-grid">
+    <div class="product-card reveal">
+      <div class="product-img">👔</div>
+      <div class="product-img-overlay">
+        <button class="product-quick-add">إضافة للسلة</button>
+      </div>
+      <div class="product-tag-badge">جديد</div>
+      <div class="product-info">
+        <div class="product-cat">رجالي • كلاسيك</div>
+        <div class="product-name">بليزر كلاسيك بريميوم</div>
+        <div class="product-price">٨٩٥ ريال</div>
+      </div>
+    </div>
+    <div class="product-card reveal reveal-delay-1">
+      <div class="product-img" style="font-size:4rem">👗</div>
+      <div class="product-img-overlay">
+        <button class="product-quick-add">إضافة للسلة</button>
+      </div>
+      <div class="product-tag-badge" style="background:#1e1e1e;color:var(--gold);border:1px solid var(--gold)">مميز</div>
+      <div class="product-info">
+        <div class="product-cat">نسائي • سهرة</div>
+        <div class="product-name">فستان سهرة فاخر</div>
+        <div class="product-price">١٢٤٠ ريال</div>
+      </div>
+    </div>
+    <div class="product-card reveal reveal-delay-2">
+      <div class="product-img" style="font-size:4rem">🧥</div>
+      <div class="product-img-overlay">
+        <button class="product-quick-add">إضافة للسلة</button>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">رجالي • كاجوال</div>
+        <div class="product-name">معطف شتوي أنيق</div>
+        <div class="product-price">٦٧٠ ريال</div>
+      </div>
+    </div>
+    <div class="product-card reveal reveal-delay-3">
+      <div class="product-img" style="font-size:4rem">👒</div>
+      <div class="product-img-overlay">
+        <button class="product-quick-add">إضافة للسلة</button>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">إكسسوار</div>
+        <div class="product-name">قبعة فيدورا كلاسيك</div>
+        <div class="product-price">٢٨٠ ريال</div>
+      </div>
+    </div>
+    <div class="product-card reveal reveal-delay-4">
+      <div class="product-img" style="font-size:4rem">👠</div>
+      <div class="product-img-overlay">
+        <button class="product-quick-add">إضافة للسلة</button>
+      </div>
+      <div class="product-tag-badge">خصم ٢٠٪</div>
+      <div class="product-info">
+        <div class="product-cat">نسائي • أحذية</div>
+        <div class="product-name">حذاء كعب فاخر</div>
+        <div class="product-price">٤٥٠ ريال</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-section">
+  <div class="stat-item reveal">
+    <span class="stat-number" data-target="15000">0</span>
+    <div class="stat-label">عميل سعيد</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-1">
+    <span class="stat-number" data-target="500">0</span>
+    <div class="stat-label">تصميم حصري</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-2">
+    <span class="stat-number" data-target="12">0</span>
+    <div class="stat-label">سنة خبرة</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-3">
+    <span class="stat-number" data-target="98">0</span>
+    <div class="stat-label">نسبة رضا العملاء</div>
+  </div>
+</div>
+
+<!-- Feature -->
+<section id="feature" style="padding:0">
+  <div class="feature-section">
+    <div class="feature-visual reveal">
+      <span style="z-index:1;position:relative">✨</span>
+    </div>
+    <div class="feature-content reveal">
+      <div class="feature-number">01</div>
+      <div class="section-tag" style="margin-bottom:12px">حصري ومميز</div>
+      <h2 class="section-title" style="margin-bottom:24px">فلسفة<br>التصميم</h2>
+      <p style="color:var(--gray);line-height:1.9;margin-bottom:32px">
+        نؤمن بأن كل قطعة ملابس هي فن بحد ذاتها. 
+        نستخدم أفضل الأقمشة المستوردة ونوظف خبرة 
+        أكثر من عقد في صناعة الأزياء لنقدم لك 
+        تجربة لبس لا مثيل لها.
+      </p>
+      <button class="btn-primary" style="align-self:flex-start"><span>اعرف أكثر</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section style="padding:80px 0">
+  <div class="newsletter-section reveal">
+    <div class="section-tag" style="margin-bottom:16px">لا تفوت شيئاً</div>
+    <h2 class="newsletter-title">اشترك في قائمتنا الحصرية</h2>
+    <p class="newsletter-sub">احصل على أحدث العروض والمجموعات قبل أي أحد</p>
+    <div class="newsletter-form">
+      <input type="email" class="newsletter-input" placeholder="بريدك الإلكتروني">
+      <button class="newsletter-btn">اشترك</button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-top reveal">
+    <div class="footer-brand">
+      <span class="footer-logo">ÉLITE</span>
+      <p class="footer-desc">
+        وجهتك الأولى للأزياء الراقية والتصاميم الحصرية.
+        نقدم لك أفضل تجربة تسوق بأعلى مستويات الجودة.
+      </p>
+    </div>
+    <div>
+      <div class="footer-col-title">تصفح</div>
+      <ul class="footer-links">
+        <li><a href="#">المجموعات</a></li>
+        <li><a href="#">الجديد</a></li>
+        <li><a href="#">العروض</a></li>
+        <li><a href="#">الإكسسوارات</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">خدمة العملاء</div>
+      <ul class="footer-links">
+        <li><a href="#">تتبع طلبك</a></li>
+        <li><a href="#">الإرجاع والاستبدال</a></li>
+        <li><a href="#">سياسة الشحن</a></li>
+        <li><a href="#">تواصل معنا</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">الشركة</div>
+      <ul class="footer-links">
+        <li><a href="#">من نحن</a></li>
+        <li><a href="#">المدونة</a></li>
+        <li><a href="#">الوظائف</a></li>
+        <li><a href="#">الشركاء</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 ÉLITE. جميع الحقوق محفوظة.</span>
+    <div class="social-links">
+      <a href="#" class="social-link">ig</a>
+      <a href="#" class="social-link">tw</a>
+      <a href="#" class="social-link">fb</a>
+      <a href="#" class="social-link">yt</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Cursor
+const cursor = document.getElementById('cursor');
+const follower = document.getElementById('follower');
+let mx=0,my=0,fx=0,fy=0;
+document.addEventListener('mousemove', e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx-6+'px';
+  cursor.style.top=my-6+'px';
+});
+setInterval(()=>{
+  fx+=(mx-fx)*0.12; fy+=(my-fy)*0.12;
+  follower.style.left=fx-18+'px';
+  follower.style.top=fy-18+'px';
+},16);
+document.querySelectorAll('button,a,.product-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ cursor.style.transform='scale(2)'; follower.style.transform='scale(1.5)'; });
+  el.addEventListener('mouseleave',()=>{ cursor.style.transform='scale(1)'; follower.style.transform='scale(1)'; });
+});
+
+// Loader
+window.addEventListener('load',()=>{
+  setTimeout(()=>{ document.getElementById('loader').classList.add('hidden'); },2200);
+});
+
+// Nav scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>80);
+});
+
+// Particles
+const container = document.getElementById('particles');
+for(let i=0;i<30;i++){
+  const p = document.createElement('div');
+  p.className='particle';
+  p.style.cssText=`left:${Math.random()*100}%;--dur:${6+Math.random()*10}s;--delay:${Math.random()*8}s;--drift:${(Math.random()-0.5)*100}px`;
+  container.appendChild(p);
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// Counter animation
+const countObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target;
+      const target=+el.dataset.target;
+      const dur=2000; const step=dur/60;
+      let current=0;
+      const t=setInterval(()=>{
+        current+=target/60;
+        if(current>=target){ el.textContent=target.toLocaleString('ar'); clearInterval(t); }
+        else el.textContent=Math.floor(current).toLocaleString('ar');
+      },step);
+      countObserver.unobserve(el);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('[data-target]').forEach(el=>countObserver.observe(el));
+</script>
 </body>
 </html>
