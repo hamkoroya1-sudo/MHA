@@ -3,949 +3,456 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ÉLITE — أزياء راقية</title>
+<title>MHA STORE // UNDERGROUND STREETWEAR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Tajawal:wght@500;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black: #0a0a0a;
-    --white: #fafaf8;
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --cream: #f5f0e8;
-    --gray: #8a8680;
-    --dark-gray: #1e1e1e;
-    --border: rgba(201,168,76,0.2);
+    --bg-black: #050505;
+    --neon-green: #00ff66;
+    --dark-surface: #0d0d0d;
+    --border-color: #222222;
+    --text-muted: #777777;
+    --text-main: #ffffff;
   }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
+    background-color: var(--bg-black);
+    color: var(--text-main);
     font-family: 'Tajawal', sans-serif;
-    background: var(--black);
-    color: var(--white);
     overflow-x: hidden;
-    cursor: none;
+    selection-background-color: var(--neon-green);
+    selection-color: var(--bg-black);
   }
 
-  /* Custom Cursor */
-  .cursor {
-    position: fixed;
-    width: 12px; height: 12px;
-    background: var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s;
-    mix-blend-mode: difference;
-  }
-  .cursor-follower {
-    position: fixed;
-    width: 36px; height: 36px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transition: all 0.15s ease;
-    opacity: 0.5;
-  }
-
-  /* Loader */
-  .loader {
-    position: fixed; inset: 0;
-    background: var(--black);
-    z-index: 9000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 20px;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
-  }
-  .loader.hidden { opacity: 0; visibility: hidden; }
-  .loader-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 5vw, 4rem);
-    color: var(--gold);
-    letter-spacing: 0.3em;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  .loader-bar {
-    width: 200px; height: 1px;
-    background: var(--dark-gray);
-    overflow: hidden;
-  }
-  .loader-progress {
-    height: 100%;
-    background: var(--gold);
-    animation: load 2s ease forwards;
-  }
-  @keyframes load { from { width: 0 } to { width: 100% } }
-  @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
-
-  /* Navigation */
-  nav {
-    position: fixed; top: 0; width: 100%;
-    z-index: 100;
-    padding: 24px 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: all 0.4s ease;
-  }
-  nav.scrolled {
-    background: rgba(10,10,10,0.95);
-    backdrop-filter: blur(20px);
-    padding: 16px 60px;
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    color: var(--gold);
-    letter-spacing: 0.2em;
-    text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 40px; list-style: none; }
-  .nav-links a {
-    color: var(--white);
-    text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 0.15em;
-    font-weight: 400;
-    position: relative;
-    opacity: 0.8;
-    transition: opacity 0.3s;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px; left: 0;
-    width: 0; height: 1px;
-    background: var(--gold);
-    transition: width 0.4s ease;
-  }
-  .nav-links a:hover { opacity: 1; }
-  .nav-links a:hover::after { width: 100%; }
-  .nav-cart {
-    display: flex; align-items: center; gap: 8px;
-    color: var(--gold);
-    cursor: pointer;
-    font-size: 0.85rem;
-    letter-spacing: 0.1em;
-    border: 1px solid var(--border);
-    padding: 10px 20px;
-    transition: all 0.3s;
-  }
-  .nav-cart:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
-
-  /* Hero */
-  .hero {
-    height: 100vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background: 
-      radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.07) 0%, transparent 60%),
-      linear-gradient(135deg, #0a0a0a 0%, #1a1510 50%, #0a0a0a 100%);
-  }
-  .hero-grid {
-    position: absolute; inset: 0;
-    background-image: 
-      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
-    background-size: 80px 80px;
-    animation: gridMove 20s linear infinite;
-  }
-  @keyframes gridMove { from{transform:translateY(0)} to{transform:translateY(80px)} }
-  
-  .hero-content {
-    position: relative;
-    padding: 0 60px;
-    max-width: 700px;
-  }
-  .hero-tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    letter-spacing: 0.35em;
-    color: var(--gold);
-    border: 1px solid var(--border);
-    padding: 8px 20px;
-    margin-bottom: 36px;
-    animation: fadeInUp 1s ease 0.3s both;
-  }
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 7vw, 7rem);
-    font-weight: 900;
-    line-height: 0.95;
-    margin-bottom: 28px;
-    animation: fadeInUp 1s ease 0.5s both;
-  }
-  .hero-title .line-gold { color: var(--gold); display: block; }
-  .hero-sub {
-    font-size: 1rem;
-    color: var(--gray);
-    line-height: 1.8;
-    margin-bottom: 48px;
-    max-width: 400px;
-    animation: fadeInUp 1s ease 0.7s both;
-  }
-  .hero-btns {
-    display: flex; gap: 16px;
-    animation: fadeInUp 1s ease 0.9s both;
-  }
-  .btn-primary {
-    background: var(--gold);
-    color: var(--black);
-    padding: 16px 40px;
-    font-size: 0.85rem;
-    letter-spacing: 0.15em;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
-    position: relative;
-    overflow: hidden;
-  }
-  .btn-primary::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: var(--gold-light);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.4s ease;
-  }
-  .btn-primary:hover::before { transform: scaleX(1); transform-origin: left; }
-  .btn-primary span { position: relative; z-index: 1; }
-  .btn-outline {
-    background: transparent;
-    color: var(--white);
-    padding: 16px 40px;
-    font-size: 0.85rem;
-    letter-spacing: 0.15em;
-    border: 1px solid rgba(255,255,255,0.2);
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-
-  .hero-scroll {
-    position: absolute;
-    bottom: 40px; left: 60px;
-    display: flex; align-items: center; gap: 16px;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    color: var(--gray);
-    animation: fadeInUp 1s ease 1.2s both;
-  }
-  .scroll-line {
-    width: 60px; height: 1px;
-    background: var(--gray);
-    position: relative;
-    overflow: hidden;
-  }
-  .scroll-line::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: var(--gold);
-    animation: scrollAnim 2s ease infinite;
-  }
-  @keyframes scrollAnim { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
-
-  .hero-image-side {
-    position: absolute;
-    right: 0; top: 0; bottom: 0;
-    width: 45%;
-    overflow: hidden;
-    animation: fadeInRight 1.2s ease 0.2s both;
-  }
-  .hero-image-side::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, var(--black) 0%, transparent 30%);
-    z-index: 2;
-  }
-  .hero-image-placeholder {
-    width: 100%; height: 100%;
-    background: 
-      linear-gradient(180deg, rgba(201,168,76,0.1) 0%, rgba(10,10,10,0.3) 100%),
-      repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(201,168,76,0.03) 10px, rgba(201,168,76,0.03) 11px);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 8rem;
-    opacity: 0.4;
-  }
-
-  @keyframes fadeInUp { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes fadeInRight { from{opacity:0;transform:translateX(60px)} to{opacity:1;transform:translateX(0)} }
-
-  /* Section */
-  section { padding: 120px 60px; }
-
-  .section-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 64px;
-  }
-  .section-tag {
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    color: var(--gold);
-    margin-bottom: 12px;
-  }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 700;
-    line-height: 1.1;
-  }
-  .section-link {
-    color: var(--gold);
-    font-size: 0.8rem;
-    letter-spacing: 0.2em;
-    text-decoration: none;
-    display: flex; align-items: center; gap: 10px;
-    transition: gap 0.3s;
-  }
-  .section-link:hover { gap: 20px; }
-
-  /* Products Grid */
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-  }
-  .product-card {
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    background: var(--dark-gray);
-    transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-  }
-  .product-card:hover { transform: translateY(-8px); }
-  .product-card:first-child { grid-row: span 2; }
-  .product-img {
-    aspect-ratio: 3/4;
-    background: linear-gradient(135deg, #1e1a14 0%, #2a2318 50%, #1a1510 100%);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 5rem;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.6s ease;
-  }
-  .product-card:first-child .product-img { aspect-ratio: auto; height: 100%; min-height: 500px; }
-  .product-card:hover .product-img { transform: scale(1.05); }
-  .product-img-overlay {
-    position: absolute; inset: 0;
-    background: rgba(0,0,0,0.4);
-    opacity: 0;
-    transition: opacity 0.4s;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .product-card:hover .product-img-overlay { opacity: 1; }
-  .product-quick-add {
-    background: var(--gold);
-    color: var(--black);
-    padding: 12px 28px;
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    transform: translateY(20px);
-    transition: transform 0.4s ease;
-  }
-  .product-card:hover .product-quick-add { transform: translateY(0); }
-  .product-info { padding: 20px; }
-  .product-cat {
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: var(--gold);
-    margin-bottom: 6px;
-  }
-  .product-name {
-    font-size: 0.95rem;
-    font-weight: 500;
-    margin-bottom: 8px;
-  }
-  .product-price {
-    font-family: 'Playfair Display', serif;
-    color: var(--gold);
-    font-size: 1.1rem;
-  }
-  .product-tag-badge {
-    position: absolute;
-    top: 16px; right: 16px;
-    background: var(--gold);
-    color: var(--black);
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    font-weight: 700;
-    padding: 6px 12px;
-  }
-
-  /* Marquee */
-  .marquee-section {
-    padding: 40px 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
-    background: var(--dark-gray);
-  }
-  .marquee-track {
-    display: flex;
-    animation: marquee 20s linear infinite;
-    white-space: nowrap;
-  }
-  .marquee-item {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem;
-    letter-spacing: 0.2em;
-    color: var(--gray);
-    padding: 0 48px;
-    display: flex; align-items: center; gap: 48px;
-  }
-  .marquee-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; }
-  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-
-  /* Feature Section */
-  .feature-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    min-height: 70vh;
-  }
-  .feature-visual {
-    background: 
-      linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(10,10,10,0.5) 100%),
-      repeating-conic-gradient(rgba(201,168,76,0.05) 0%, transparent 25%);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .feature-visual::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent 60%, var(--black) 100%);
-  }
-  .feature-content {
-    padding: 80px 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .feature-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 8rem;
-    font-weight: 900;
-    color: rgba(201,168,76,0.1);
-    line-height: 1;
-    margin-bottom: -20px;
-  }
-
-  /* Stats */
-  .stats-section {
-    background: var(--dark-gray);
-    padding: 80px 60px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .stat-item {
-    padding: 40px;
-    text-align: center;
-    border-left: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-    transition: background 0.4s;
-  }
-  .stat-item:first-child { border-left: none; }
-  .stat-item:hover { background: rgba(201,168,76,0.05); }
-  .stat-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
-    font-weight: 900;
-    color: var(--gold);
-    display: block;
-  }
-  .stat-label { font-size: 0.8rem; letter-spacing: 0.15em; color: var(--gray); margin-top: 8px; }
-
-  /* Newsletter */
-  .newsletter-section {
-    background: linear-gradient(135deg, #1a1510 0%, #0a0a0a 100%);
-    border: 1px solid var(--border);
-    margin: 0 60px;
-    padding: 80px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .newsletter-section::before {
-    content: '';
-    position: absolute;
-    top: -100px; left: 50%;
-    transform: translateX(-50%);
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .newsletter-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    margin-bottom: 16px;
-  }
-  .newsletter-sub { color: var(--gray); margin-bottom: 40px; }
-  .newsletter-form {
-    display: flex;
-    max-width: 500px;
-    margin: 0 auto;
-    gap: 0;
-  }
-  .newsletter-input {
-    flex: 1;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    border-left: none;
-    color: var(--white);
-    padding: 16px 24px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 0.9rem;
-    outline: none;
-    transition: border-color 0.3s;
-    direction: rtl;
-    order: 2;
-  }
-  .newsletter-input:focus { border-color: var(--gold); }
-  .newsletter-input::placeholder { color: var(--gray); }
-  .newsletter-btn {
-    background: var(--gold);
-    color: var(--black);
-    border: none;
-    padding: 16px 32px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.3s;
-    order: 1;
-  }
-  .newsletter-btn:hover { background: var(--gold-light); }
-
-  /* Footer */
-  footer {
-    padding: 80px 60px 40px;
-    border-top: 1px solid var(--border);
-  }
-  .footer-top {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 60px;
-    margin-bottom: 60px;
-  }
-  .footer-brand {}
-  .footer-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--gold);
-    letter-spacing: 0.2em;
-    display: block;
-    margin-bottom: 16px;
-  }
-  .footer-desc { color: var(--gray); font-size: 0.9rem; line-height: 1.8; }
-  .footer-col-title {
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    color: var(--gold);
-    margin-bottom: 24px;
+  /* Glitch Text Effect for Brand Identity */
+  .glitch-text {
+    font-family: 'Syncopate', sans-serif;
     text-transform: uppercase;
+    position: relative;
+    display: inline-block;
   }
-  .footer-links { list-style: none; }
-  .footer-links li { margin-bottom: 12px; }
-  .footer-links a {
-    color: var(--gray);
+
+  /* Neo-Brutalism Header */
+  header {
+    border-bottom: 2px solid var(--border-color);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: rgba(5,5,5,0.9);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+  }
+  .logo {
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: var(--text-main);
     text-decoration: none;
-    font-size: 0.9rem;
+  }
+  .logo span { color: var(--neon-green); }
+  
+  .nav-menu { display: flex; gap: 30px; list-style: none; }
+  .nav-menu a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9.5rem;
+    font-weight: 800;
     transition: color 0.3s;
   }
-  .footer-links a:hover { color: var(--white); }
-  .footer-bottom {
+  .nav-menu a:hover, .nav-menu .active { color: var(--neon-green); }
+
+  .cart-btn {
+    background: transparent;
+    border: 2px solid var(--neon-green);
+    color: var(--neon-green);
+    padding: 8px 18px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .cart-btn:hover {
+    background: var(--neon-green);
+    color: var(--bg-black);
+    box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
+  }
+
+  /* Hero Section Radical Change */
+  .hero-section {
+    min-height: 85vh;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    border-bottom: 2px solid var(--border-color);
+  }
+  .hero-left {
+    padding: 80px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 2px solid var(--border-color);
+  }
+  .hero-tag {
+    color: var(--neon-green);
+    font-weight: 900;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+  .hero-main-title {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    letter-spacing: -2px;
+  }
+  .hero-main-title em {
+    font-style: normal;
+    -webkit-text-stroke: 1px var(--text-main);
+    color: transparent;
+  }
+  .hero-desc {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 550px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+  .cta-group { display: flex; gap: 20px; }
+  .btn-bold {
+    background: var(--text-main);
+    color: var(--bg-black);
+    padding: 18px 36px;
+    font-weight: 900;
+    text-decoration: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-bold:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 4px 4px 0px var(--neon-green);
+  }
+  
+  .hero-right {
+    background: linear-gradient(45deg, #0a0a0a, #151515);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .hero-graphic {
+    font-size: 11rem;
+    filter: drop-shadow(0 0 30px rgba(255,255,255,0.05));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  /* Infinite Giant Ticker / Marquee */
+  .giant-ticker {
+    background: var(--neon-green);
+    color: var(--bg-black);
+    padding: 25px 0;
+    overflow: hidden;
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+  }
+  .ticker-wrap {
+    display: flex;
+    white-space: nowrap;
+    animation: tickerMove 25s linear infinite;
+  }
+  .ticker-wrap span {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    padding: 0 30px;
+  }
+  @keyframes tickerMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Brutalist Products Grid */
+  .catalog-section { padding: 80px 40px; }
+  .catalog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 50px;
+  }
+  .section-headline { font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; }
+  .section-headline span { color: var(--neon-green); }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+  }
+  
+  .brutal-card {
+    background: var(--dark-surface);
+    border: 2px solid var(--border-color);
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .brutal-card:hover {
+    border-color: var(--neon-green);
+    transform: scale(1.02);
+  }
+  .card-img-box {
+    aspect-ratio: 1;
+    background: #121212;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5.5rem;
+    border-bottom: 2px solid var(--border-color);
+    position: relative;
+  }
+  .card-badge {
+    position: absolute;
+    top: 15px; left: 15px;
+    background: var(--neon-green);
+    color: var(--bg-black);
+    font-size: 0.75rem;
+    font-weight: 900;
+    padding: 4px 10px;
+  }
+  .card-details { padding: 20px; }
+  .card-meta { color: var(--text-muted); font-size: 0.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;}
+  .card-title { font-size: 1.15rem; font-weight: 900; margin-bottom: 15px; }
+  
+  .card-footer-action {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 40px;
-    border-top: 1px solid var(--border);
-    font-size: 0.8rem;
-    color: var(--gray);
   }
-  .social-links { display: flex; gap: 16px; }
-  .social-link {
+  .price-tag { font-size: 1.3rem; font-weight: 900; color: var(--neon-green); }
+  .buy-btn-icon {
+    background: var(--text-main);
+    color: var(--bg-black);
+    border: none;
     width: 40px; height: 40px;
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--gray);
-    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 900;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .brutal-card:hover .buy-btn-icon { background: var(--neon-green); }
+
+  /* Concept Showcase Section */
+  .lookbook-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 2px solid var(--border-color);
+    border-bottom: 2px solid var(--border-color);
+  }
+  .lookbook-box { padding: 80px 40px; display: flex; flex-direction: column; justify-content: center;}
+  .lookbook-box.visual {
+    background: #111;
+    font-size: 9rem;
+    text-align: center;
+    border-right: 2px solid var(--border-color);
+  }
+
+  /* Foot System */
+  footer { padding: 60px 40px; border-top: 2px solid var(--border-color); background: #020202; }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(2, 1fr);
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+  .footer-logo { font-size: 2rem; font-weight: 900; margin-bottom: 15px; }
+  .footer-about { color: var(--text-muted); max-width: 400px; line-height: 1.6; }
+  .footer-title { font-size: 1rem; font-weight: 900; color: var(--text-main); margin-bottom: 20px; text-transform: uppercase; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 10px; }
+  .footer-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; font-weight: 500; }
+  .footer-links a:hover { color: var(--neon-green); }
+  
+  .footer-copyright {
+    border-top: 1px solid var(--border-color);
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-muted);
     font-size: 0.9rem;
-    transition: all 0.3s;
   }
-  .social-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.05); }
 
-  /* Scroll Reveal */
-  .reveal {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
-
-  /* Floating particles */
-  .particles {
-    position: fixed; inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .particle {
-    position: absolute;
-    width: 2px; height: 2px;
-    background: var(--gold);
-    border-radius: 50%;
-    opacity: 0;
-    animation: float var(--dur, 8s) var(--delay, 0s) linear infinite;
-  }
-  @keyframes float {
-    0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
-    10%  { opacity: 0.4; }
-    90%  { opacity: 0.4; }
-    100% { transform: translateY(-10vh) translateX(var(--drift, 50px)); opacity: 0; }
+  /* Responsive Fixes */
+  @media(max-width: 768px) {
+    .hero-section, .lookbook-section { grid-template-columns: 1fr; }
+    .hero-right { padding: 60px 0; border-top: 2px solid var(--border-color); }
+    .nav-menu { display: none; }
+    .footer-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<!-- Cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-follower" id="follower"></div>
-
-<!-- Particles -->
-<div class="particles" id="particles"></div>
-
-<!-- Loader -->
-<div class="loader" id="loader">
-  <div class="loader-logo">ÉLITE</div>
-  <div class="loader-bar"><div class="loader-progress"></div></div>
-</div>
-
-<!-- Navigation -->
-<nav id="navbar">
-  <a href="#" class="nav-logo">ÉLITE</a>
-  <ul class="nav-links">
-    <li><a href="#products">المجموعات</a></li>
-    <li><a href="#feature">الجديد</a></li>
-    <li><a href="#">العروض</a></li>
-    <li><a href="#">من نحن</a></li>
+<!-- Header -->
+<header>
+  <a href="#" class="logo">MHA<span>//</span>STORE</a>
+  <ul class="nav-menu">
+    <li><a href="#shop" class="active">المتجر السفلي</a></li>
+    <li><a href="#about">فلسفتنا</a></li>
+    <li><a href="#">الكتالوج</a></li>
   </ul>
-  <div class="nav-cart">🛍 السلة (0)</div>
-</nav>
+  <button class="cart-btn" id="cart-counter">BAG [0]</button>
+</header>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-content">
-    <div class="hero-tag">مجموعة 2025 — الفاخرة</div>
-    <h1 class="hero-title">
-      الأناقة
-      <span class="line-gold">الحقيقية</span>
-    </h1>
-    <p class="hero-sub">
-      اكتشف مجموعتنا الحصرية من الأزياء الراقية، 
-      مصممة لمن يؤمن بأن الملبس انعكاس للشخصية.
+<!-- Hero Zone -->
+<section class="hero-section">
+  <div class="hero-left">
+    <div class="hero-tag">// ابتكار الشارع العراقي 2026</div>
+    <h1 class="hero-main-title">أزياء متمردة<br>قصات <em>فضفاضة</em></h1>
+    <p class="hero-desc">
+      تخطي المألوف واكسر القوالب الجاهزة. تشكيلة ملابس ستريت وير مخصصة لأولئك الذين يجعلون من حضورهم اليومي بياناً صاخباً وقوياً. 
     </p>
-    <div class="hero-btns">
-      <button class="btn-primary"><span>تسوق الآن</span></button>
-      <button class="btn-outline">استكشف المجموعة</button>
+    <div class="cta-group">
+      <a href="#shop" class="btn-bold">تصفح القطع الحالية</a>
     </div>
   </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>اسحب للأسفل</span>
-  </div>
-  <div class="hero-image-side">
-    <div class="hero-image-placeholder">👗</div>
+  <div class="hero-right">
+    <div class="hero-graphic">👖</div>
   </div>
 </section>
 
-<!-- Marquee -->
-<div class="marquee-section">
-  <div class="marquee-track">
-    <div class="marquee-item">أزياء راقية <span class="marquee-dot"></span></div>
-    <div class="marquee-item">جودة استثنائية <span class="marquee-dot"></span></div>
-    <div class="marquee-item">تصاميم حصرية <span class="marquee-dot"></span></div>
-    <div class="marquee-item">موضة 2025 <span class="marquee-dot"></span></div>
-    <div class="marquee-item">شحن مجاني <span class="marquee-dot"></span></div>
-    <div class="marquee-item">أزياء راقية <span class="marquee-dot"></span></div>
-    <div class="marquee-item">جودة استثنائية <span class="marquee-dot"></span></div>
-    <div class="marquee-item">تصاميم حصرية <span class="marquee-dot"></span></div>
-    <div class="marquee-item">موضة 2025 <span class="marquee-dot"></span></div>
-    <div class="marquee-item">شحن مجاني <span class="marquee-dot"></span></div>
+<!-- Giant Moving Marquee -->
+<div class="giant-ticker">
+  <div class="ticker-wrap">
+    <span>MHA STORE //</span><span>STREETWEAR REVOLUTION //</span><span>BAGGY PANTS CULTURE //</span><span>OVERSIZED DROP 01 //</span>
+    <span>MHA STORE //</span><span>STREETWEAR REVOLUTION //</span><span>BAGGY PANTS CULTURE //</span><span>OVERSIZED DROP 01 //</span>
   </div>
 </div>
 
-<!-- Products -->
-<section id="products">
-  <div class="section-header reveal">
+<!-- Brutalist Catalog -->
+<section class="catalog-section" id="shop">
+  <div class="catalog-header">
     <div>
-      <div class="section-tag">مجموعتنا المميزة</div>
-      <h2 class="section-title">الأكثر مبيعاً</h2>
+      <h2 class="section-headline">إصدارات <span>DROP_01</span></h2>
     </div>
-    <a href="#" class="section-link">عرض الكل ←</a>
   </div>
-  <div class="products-grid">
-    <div class="product-card reveal">
-      <div class="product-img">👔</div>
-      <div class="product-img-overlay">
-        <button class="product-quick-add">إضافة للسلة</button>
+
+  <div class="grid-container">
+    <!-- Item 1 -->
+    <div class="brutal-card">
+      <div class="card-img-box">
+        👖
+        <div class="card-badge">الأكثر طلباً</div>
       </div>
-      <div class="product-tag-badge">جديد</div>
-      <div class="product-info">
-        <div class="product-cat">رجالي • كلاسيك</div>
-        <div class="product-name">بليزر كلاسيك بريميوم</div>
-        <div class="product-price">٨٩٥ ريال</div>
-      </div>
-    </div>
-    <div class="product-card reveal reveal-delay-1">
-      <div class="product-img" style="font-size:4rem">👗</div>
-      <div class="product-img-overlay">
-        <button class="product-quick-add">إضافة للسلة</button>
-      </div>
-      <div class="product-tag-badge" style="background:#1e1e1e;color:var(--gold);border:1px solid var(--gold)">مميز</div>
-      <div class="product-info">
-        <div class="product-cat">نسائي • سهرة</div>
-        <div class="product-name">فستان سهرة فاخر</div>
-        <div class="product-price">١٢٤٠ ريال</div>
+      <div class="card-details">
+        <div class="card-meta">DENIM // PANTS</div>
+        <h3 class="card-title">بنطلون باجي جينز غامق فضفاض</h3>
+        <div class="card-footer-action">
+          <span class="price-tag">٣٠،٠٠٠ د.ع</span>
+          <button class="buy-btn-icon" onclick="updateCart('بنطلون باجي جينز')">+</button>
+        </div>
       </div>
     </div>
-    <div class="product-card reveal reveal-delay-2">
-      <div class="product-img" style="font-size:4rem">🧥</div>
-      <div class="product-img-overlay">
-        <button class="product-quick-add">إضافة للسلة</button>
-      </div>
-      <div class="product-info">
-        <div class="product-cat">رجالي • كاجوال</div>
-        <div class="product-name">معطف شتوي أنيق</div>
-        <div class="product-price">٦٧٠ ريال</div>
-      </div>
-    </div>
-    <div class="product-card reveal reveal-delay-3">
-      <div class="product-img" style="font-size:4rem">👒</div>
-      <div class="product-img-overlay">
-        <button class="product-quick-add">إضافة للسلة</button>
-      </div>
-      <div class="product-info">
-        <div class="product-cat">إكسسوار</div>
-        <div class="product-name">قبعة فيدورا كلاسيك</div>
-        <div class="product-price">٢٨٠ ريال</div>
+
+    <!-- Item 2 -->
+    <div class="brutal-card">
+      <div class="card-img-box">👕</div>
+      <div class="card-details">
+        <div class="card-meta">ESSENTIALS // TEES</div>
+        <h3 class="card-title">تيشيرت هيفي ويت أسود OVERSIZED</h3>
+        <div class="card-footer-action">
+          <span class="price-tag">٢٥،٠٠٠ د.ع</span>
+          <button class="buy-btn-icon" onclick="updateCart('تيشيرت أسود')">+</button>
+        </div>
       </div>
     </div>
-    <div class="product-card reveal reveal-delay-4">
-      <div class="product-img" style="font-size:4rem">👠</div>
-      <div class="product-img-overlay">
-        <button class="product-quick-add">إضافة للسلة</button>
+
+    <!-- Item 3 -->
+    <div class="brutal-card">
+      <div class="card-img-box">🧥</div>
+      <div class="card-details">
+        <div class="card-meta">HEAVYWEAR // HOODIES</div>
+        <h3 class="card-title">هودي باجي رمادي مع قبعة كابيشون</h3>
+        <div class="card-footer-action">
+          <span class="price-tag">٣٥،٠٠٠ د.ع</span>
+          <button class="buy-btn-icon" onclick="updateCart('هودي رمادي')">+</button>
+        </div>
       </div>
-      <div class="product-tag-badge">خصم ٢٠٪</div>
-      <div class="product-info">
-        <div class="product-cat">نسائي • أحذية</div>
-        <div class="product-name">حذاء كعب فاخر</div>
-        <div class="product-price">٤٥٠ ريال</div>
+    </div>
+
+    <!-- Item 4 -->
+    <div class="brutal-card">
+      <div class="card-img-box">👟</div>
+      <div class="card-details">
+        <div class="card-meta">FOOTWEAR // SNEAKERS</div>
+        <h3 class="card-title">حذاء ستريت عريض Chunky Sole</h3>
+        <div class="card-footer-action">
+          <span class="price-tag">٤٠،٠٠٠ د.ع</span>
+          <button class="buy-btn-icon" onclick="updateCart('حذاء Chunky')">+</button>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Stats -->
-<div class="stats-section">
-  <div class="stat-item reveal">
-    <span class="stat-number" data-target="15000">0</span>
-    <div class="stat-label">عميل سعيد</div>
-  </div>
-  <div class="stat-item reveal reveal-delay-1">
-    <span class="stat-number" data-target="500">0</span>
-    <div class="stat-label">تصميم حصري</div>
-  </div>
-  <div class="stat-item reveal reveal-delay-2">
-    <span class="stat-number" data-target="12">0</span>
-    <div class="stat-label">سنة خبرة</div>
-  </div>
-  <div class="stat-item reveal reveal-delay-3">
-    <span class="stat-number" data-target="98">0</span>
-    <div class="stat-label">نسبة رضا العملاء</div>
-  </div>
-</div>
-
-<!-- Feature -->
-<section id="feature" style="padding:0">
-  <div class="feature-section">
-    <div class="feature-visual reveal">
-      <span style="z-index:1;position:relative">✨</span>
-    </div>
-    <div class="feature-content reveal">
-      <div class="feature-number">01</div>
-      <div class="section-tag" style="margin-bottom:12px">حصري ومميز</div>
-      <h2 class="section-title" style="margin-bottom:24px">فلسفة<br>التصميم</h2>
-      <p style="color:var(--gray);line-height:1.9;margin-bottom:32px">
-        نؤمن بأن كل قطعة ملابس هي فن بحد ذاتها. 
-        نستخدم أفضل الأقمشة المستوردة ونوظف خبرة 
-        أكثر من عقد في صناعة الأزياء لنقدم لك 
-        تجربة لبس لا مثيل لها.
-      </p>
-      <button class="btn-primary" style="align-self:flex-start"><span>اعرف أكثر</span></button>
-    </div>
-  </div>
-</section>
-
-<!-- Newsletter -->
-<section style="padding:80px 0">
-  <div class="newsletter-section reveal">
-    <div class="section-tag" style="margin-bottom:16px">لا تفوت شيئاً</div>
-    <h2 class="newsletter-title">اشترك في قائمتنا الحصرية</h2>
-    <p class="newsletter-sub">احصل على أحدث العروض والمجموعات قبل أي أحد</p>
-    <div class="newsletter-form">
-      <input type="email" class="newsletter-input" placeholder="بريدك الإلكتروني">
-      <button class="newsletter-btn">اشترك</button>
-    </div>
+<!-- Concept Split Section -->
+<section class="lookbook-section" id="about">
+  <div class="lookbook-box visual">💣</div>
+  <div class="lookbook-box">
+    <span style="color: var(--neon-green); font-weight:900; margin-bottom:15px;">// المفهوم الفني</span>
+    <h2 style="font-size:2.2rem; font-weight:900; margin-bottom:20px; letter-spacing:-1px;">ثقافة ملابس الشارع الواسعة</h2>
+    <p style="color:var(--text-muted); line-height:1.8; font-size:1.05rem;">
+      نحن لا نصنع ملابس تقليدية، بل نصمم قطعاً تمنحك حضوراً فورياً أينما ذهبت. مستوحاة من التصاميم الهندسية البسيطة والقصات الفضفاضة المريحة لتناسب جيل الشباب الطامح للتغيير والتميز.
+    </p>
   </div>
 </section>
 
 <!-- Footer -->
 <footer>
-  <div class="footer-top reveal">
-    <div class="footer-brand">
-      <span class="footer-logo">ÉLITE</span>
-      <p class="footer-desc">
-        وجهتك الأولى للأزياء الراقية والتصاميم الحصرية.
-        نقدم لك أفضل تجربة تسوق بأعلى مستويات الجودة.
-      </p>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">MHA<span>//</span>STORE</div>
+      <p class="footer-about">براند مستقل مخصص لأزياء الشارع العصرية والثقافة الشبابية المتجددة في العراق لعام 2026.</p>
     </div>
     <div>
-      <div class="footer-col-title">تصفح</div>
+      <h4 class="footer-title">الإصدارات</h4>
       <ul class="footer-links">
-        <li><a href="#">المجموعات</a></li>
-        <li><a href="#">الجديد</a></li>
-        <li><a href="#">العروض</a></li>
-        <li><a href="#">الإكسسوارات</a></li>
+        <li><a href="#">البناطيل الواسعة</a></li>
+        <li><a href="#">التيشيرتات الضخمة</a></li>
+        <li><a href="#">ملحقات الستريت وير</a></li>
       </ul>
     </div>
     <div>
-      <div class="footer-col-title">خدمة العملاء</div>
+      <div class="footer-title">الدعم</div>
       <ul class="footer-links">
-        <li><a href="#">تتبع طلبك</a></li>
-        <li><a href="#">الإرجاع والاستبدال</a></li>
-        <li><a href="#">سياسة الشحن</a></li>
-        <li><a href="#">تواصل معنا</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">الشركة</div>
-      <ul class="footer-links">
-        <li><a href="#">من نحن</a></li>
-        <li><a href="#">المدونة</a></li>
-        <li><a href="#">الوظائف</a></li>
-        <li><a href="#">الشركاء</a></li>
+        <li><a href="#">خيارات التوصيل بالعراق</a></li>
+        <li><a href="#">تواصل عبر انستغرام</a></li>
+        <li><a href="#">سياسة التبديل الحازمة</a></li>
       </ul>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2025 ÉLITE. جميع الحقوق محفوظة.</span>
-    <div class="social-links">
-      <a href="#" class="social-link">ig</a>
-      <a href="#" class="social-link">tw</a>
-      <a href="#" class="social-link">fb</a>
-      <a href="#" class="social-link">yt</a>
-    </div>
+  <div class="footer-copyright">
+    <span>© 2026 MHA STORE UNDERGROUND SYSTEM.</span>
+    <span>MADE FOR INDIVIDUALS</span>
   </div>
 </footer>
 
 <script>
-// Cursor
-const cursor = document.getElementById('cursor');
-const follower = document.getElementById('follower');
-let mx=0,my=0,fx=0,fy=0;
-document.addEventListener('mousemove', e=>{
-  mx=e.clientX; my=e.clientY;
-  cursor.style.left=mx-6+'px';
-  cursor.style.top=my-6+'px';
-});
-setInterval(()=>{
-  fx+=(mx-fx)*0.12; fy+=(my-fy)*0.12;
-  follower.style.left=fx-18+'px';
-  follower.style.top=fy-18+'px';
-},16);
-document.querySelectorAll('button,a,.product-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ cursor.style.transform='scale(2)'; follower.style.transform='scale(1.5)'; });
-  el.addEventListener('mouseleave',()=>{ cursor.style.transform='scale(1)'; follower.style.transform='scale(1)'; });
-});
-
-// Loader
-window.addEventListener('load',()=>{
-  setTimeout(()=>{ document.getElementById('loader').classList.add('hidden'); },2200);
-});
-
-// Nav scroll
-window.addEventListener('scroll',()=>{
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>80);
-});
-
-// Particles
-const container = document.getElementById('particles');
-for(let i=0;i<30;i++){
-  const p = document.createElement('div');
-  p.className='particle';
-  p.style.cssText=`left:${Math.random()*100}%;--dur:${6+Math.random()*10}s;--delay:${Math.random()*8}s;--drift:${(Math.random()-0.5)*100}px`;
-  container.appendChild(p);
-}
-
-// Scroll reveal
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-
-// Counter animation
-const countObserver = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const el=e.target;
-      const target=+el.dataset.target;
-      const dur=2000; const step=dur/60;
-      let current=0;
-      const t=setInterval(()=>{
-        current+=target/60;
-        if(current>=target){ el.textContent=target.toLocaleString('ar'); clearInterval(t); }
-        else el.textContent=Math.floor(current).toLocaleString('ar');
-      },step);
-      countObserver.unobserve(el);
-    }
-  });
-},{threshold:0.5});
-document.querySelectorAll('[data-target]').forEach(el=>countObserver.observe(el));
+  let totalItems = 0;
+  function updateCart(name) {
+    totalItems++;
+    document.getElementById('cart-counter').textContent = `BAG [${totalItems}]`;
+    alert(`تمت إضافة [${name}] لملفات طلباتك الحالية.`);
+  }
 </script>
 </body>
 </html>
